@@ -39,10 +39,11 @@ nav a{
 
 .poetry-card {
     border: 1px solid #ccc;
-    padding: 40px;
-    margin: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 40px;  /* Reduced from 40px */
+    margin: 30px;  /* Reduced from 30px */
+    border-radius: 10px;  /* Reduced from 10px */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Lightened shadow */
+    max-width: 500px;  /* Optional: Setting a max-width can help keep the cards small */
 }
 
 .content {
@@ -84,6 +85,10 @@ nav a{
   button:hover {
     background-color: #0056b3;
   }
+
+  button:focus, a:focus {
+    outline: 2px solid #0056b3;
+}
 
 footer {
     text-align: center;
