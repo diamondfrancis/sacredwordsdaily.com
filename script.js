@@ -45,10 +45,19 @@ const poetryData = [
     }
 ];
 
+const contributionData = [ 
+    { 
+        title: "Written by Mawuena Rankine", 
+        content: "Without Christ, where would I be? Without His love, indwelling in me… Would life have meaning? I think not… Each day a meaningless melting pot. Each decision made recklessly, no reason to care, Without Christ no standard would cause us to share, Love and light could not exist as it would have no place, Each human vessel an empty shell of a space, Without Christ, I know exactly where I’d be, I’d be nowhere and nothing as it’s He who made me!", 
+        website: "https://www.mawuenarankine.co.uk/",
+        instagram: "https://www.instagram.com/mawuenarankineauthor/"
+    },
+];
+
 // Function to generate Bible verses
 function generateBibleVerses(bibleData) {
     const bibleContainer = document.getElementById('bible-container');
-    if (!bibleContainer || !bibleData.length) return; // Early exit if container is missing or no Bible verses
+    if (!bibleContainer || !bibleData.length) return;
 
     bibleData.forEach((verse) => {
         const verseCard = document.createElement('div');
