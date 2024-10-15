@@ -312,6 +312,22 @@ section p {
     margin-top: 20px; /* Space above the button */
 }
 
+.cta-button {
+    display: inline-block; /* Makes the link behave like a button */
+    padding: 12px 24px; /* Adjust padding for button size */
+    font-size: 16px; /* Font size of the button text */
+    color: #fff; /* Text color */
+    background-color: #007BFF; /* Button background color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline from the link */
+    transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+}
+
+.cta-button:hover {
+    background-color: #0056b3; /* Darker background on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
 /* Submit Interest Button */
 .button-container button {
     background-color: #6b6dff; /* Green background color */
@@ -427,4 +443,13 @@ footer p:last-child {
     .quote-card {
         padding: 10px;
     }
+}
+
+.styled-image {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
