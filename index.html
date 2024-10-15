@@ -1,42 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Sacred Words Daily</title>
-    <link rel="stylesheet" href="/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sacred Words Daily - A vibrant online community where poetry enthusiasts can share, explore, and connect through the beauty of words.">
+    <meta property="og:title" content="Sacred Words Daily">
+    <meta property="og:description" content="Join Sacred Words Daily, a welcoming space for poetry lovers to share, discover, and engage with the art of words.">
+    <meta property="og:image" content="/path/to/image.jpg">
+    <meta property="og:url" content="https://sacredworddaily.com">
+    <link rel="icon" href="/favicon.ico">
+    <title>Sacred Words Daily - Poetry Community</title>
+    <link rel="stylesheet" href="/styles.css" />
 </head>
+
+
 <body>
     <header>
         <h1>Sacred Words Daily</h1>
-        <nav>
+        <nav role="navigation">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#research">Research</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#poetry-display" aria-label="Navigate to Poetry section">Poetry</a></li>
+                <li><a href="#quote-display" aria-label="Navigate to Quote section">Quotes</a></li>
+                <li><a href="#bibleverses-display" aria-label="Navigate to Bible Verses section">Bible Verses</a></li>
+                <li><a href="#contributions-display" aria-label="Navigate to Contributions section">Contributions</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="poetry-container">
-            <!-- Poetry cards will appear here -->
+        <section id="bible-display">
+            <h2>Bible Verses</h2>
+            <div id="bible-container" class="bible-grid">
+                <!-- Bible verses will be dynamically inserted here by JavaScript -->
+            </div>
         </section>
+        
+        <section id="poetry-display">
+            <h2>Explore Our Poetry Collection</h2>
+            <div id="poetry-container" class="poetry-grid">
+                <!-- Poetry cards will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="quote-display">
+            <h2>Inspirational Quotes</h2>
+            <div id="quote-container" class="quote-grid">
+                <!-- Quotes will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <section class="content">
+            <h2>Want to Contribute to This Site?</h2>
+            <p>Sacred Words Daily is currently in development mode. If you're interested in being a part of this growing community, let us know!</p>
+            <div class="button-container">
+                <button type="button" aria-label="Notify me when this feature is available" onclick="alert('Feature coming soon!')">Submit Interest</button>
+            </div>
+        </section>
+
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Back to top" class="back-to-top">
+            ↑
+        </button>
     </main>
 
-    <div class="content">
-        <h2> WANT TO CONTRIBUTE TO THIS SITE?</h2>
-        <p>Sacred Words Daily is in development mode.</p>
-    </div>
-    
-    <div class="button-container">
-        <button type="button" aria-label="Coming soon feature" onclick="alert('Feature coming soon!')">Submit Interest</button>
-      </div>
-
     <footer>
-        <p>All Rights Reserved &copy; Made by <a href="https://diamondfrancis.online/">Diamond Francis</a></p>
+        <p>All Rights Reserved &copy; 2024 Made by <a href="https://diamondfrancis.online/" aria-label="Visit Diamond Francis' website" target="_blank" rel="noopener noreferrer">Diamond Francis</a></p>
+        <p>Follow us on social media: 
+            <a href="https://twitter.com/SacredWordsDaily" aria-label="Follow Sacred Words Daily on Twitter" target="_blank" rel="noopener noreferrer">Twitter</a> | 
+            <a href="https://instagram.com/SacredWordsDaily" aria-label="Follow Sacred Words Daily on Instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </p>
     </footer>
 
-    <script src="/script.js"></script>
+    <script src="/script.js" defer></script>
 </body>
+
 </html>
