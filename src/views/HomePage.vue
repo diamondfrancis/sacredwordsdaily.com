@@ -44,7 +44,7 @@ const dailyInspiration = ref({
           <RouterLink class="cta-button primary" to="/poetry">
             Explore Poetry
           </RouterLink>
-          <RouterLink class="cta-button secondary" to="/verses">
+          <RouterLink class="cta-button secondary" to="/bible-verses">
             Discover Bible Verses
           </RouterLink>
           <RouterLink class="cta-button outline" to="/quotes">
