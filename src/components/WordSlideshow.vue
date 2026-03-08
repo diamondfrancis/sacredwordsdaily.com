@@ -125,13 +125,17 @@ const isAnimating = ref(false)
 const direction = ref<'next' | 'prev'>('next')
 let timer: ReturnType<typeof setInterval> | null = null
 
-const slide = computed(() => slides[current.value])
+const slide = computed(() => slides[current.value]!)
 
 const typeLabel = computed(() => {
   if (slide.value.type === 'poetry') return 'Poetry'
   if (slide.value.type === 'verse') return 'Bible Verse'
   return 'Quote'
 })
+
+function pauseTimer() {
+  if (timer) clearInterval(timer)
+}
 
 function goTo(index: number, dir: 'next' | 'prev' = 'next') {
   if (isAnimating.value) return
@@ -168,7 +172,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="slideshow" @mouseenter="() => { if (timer) clearInterval(timer) }" @mouseleave="resetTimer">
+  <div class="slideshow" @mouseenter="pauseTimer" @mouseleave="resetTimer">
     <div class="slide-track" :class="[isAnimating ? 'animating' : '', direction]">
       <div class="slide-content">
         <span class="type-badge" :class="slide.type">{{ typeLabel }}</span>
