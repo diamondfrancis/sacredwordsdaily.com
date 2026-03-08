@@ -63,6 +63,10 @@ function copyToClipboard(text: string, reference: string) {
     alert('Failed to copy verse')
   })
 }
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 </script>
 
 <template>
