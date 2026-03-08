@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import WordSlideshow from '../components/WordSlideshow.vue'
 import { ref } from 'vue'
 
 const scrollToTop = () => {
@@ -28,6 +29,8 @@ const dailyInspiration = ref({
           receive encouragement in quiet moments, share verses or verses of your own heart, or simply
           sit in the presence of words that have lifted generations, you belong here.
         </p>
+
+        <WordSlideshow />
 
         <div class="daily-spotlight">
           <h3>Today's Sacred Spark</h3>
