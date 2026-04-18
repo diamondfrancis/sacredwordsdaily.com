@@ -1,9 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
 const menuOpen = ref(false)
 const router = useRouter()
+
+const now = ref(new Date())
+let clockTimer: ReturnType<typeof setInterval> | null = null
+
+const formattedDateTime = ref('')
+
+function updateClock() {
+  now.value = new Date()
+  formattedDateTime.value = now.value.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }) + ' · ' + now.value.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  })
+}
+
+onMounted(() => {
+  updateClock()
+  clockTimer = setInterval(updateClock, 60_000)
+})
+
+onBeforeUnmount(() => {
+  if (clockTimer) clearInterval(clockTimer)
+})
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value
@@ -58,26 +86,30 @@ router.afterEach(() => {
   </main>
 
   <footer>
-    <p>
-      All Rights Reserved &copy; 2024 Made by
-      <a
-        href="https://diamondfrancis.online/"
-        aria-label="Visit Diamond Francis' website"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Diamond Francis</a
-      >
-    </p>
-    <p>
-      Follow us on social media:
-      <a
-        href="https://x.com/sacred_daily"
-        aria-label="Follow Sacred Words Daily on Twitter"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Twitter</a
-      >
-    </p>
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h4 class="footer-heading">Contact</h4>
+        <a href="mailto:contact@sacredwordsdaily.com" class="footer-email">contact@sacredwordsdaily.com</a>
+      </div>
+
+      <div class="footer-section">
+        <h4 class="footer-heading">Follow Us</h4>
+        <div class="social-links">
+          <a href="https://x.com/sacred_daily" target="_blank" rel="noopener noreferrer" aria-label="Twitter">𝕏 Twitter</a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4 class="footer-heading">Date &amp; Time</h4>
+        <p class="footer-clock">{{ formattedDateTime }}</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ new Date().getFullYear() }} Sacred Words Daily · Made by
+        <a href="https://diamondfrancis.online/" target="_blank" rel="noopener noreferrer">Diamond Francis</a>
+      </p>
+    </div>
   </footer>
 </template>
 
@@ -200,6 +232,12 @@ nav ul li a.router-link-exact-active::after {
     padding: 1rem 1.25rem;
   }
 
+  .site-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 1.35rem;
+  }
+
   .hamburger {
     display: flex;
   }
@@ -256,20 +294,88 @@ main {
 footer {
   background-color: #3b2a1a;
   color: #fdf8f2;
-  text-align: center;
-  padding: 1.5rem 1rem;
+  padding: 2rem 1.5rem 1.25rem;
   font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
-footer a {
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+
+.footer-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #c9a96e;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.footer-section p,
+.footer-section a {
+  margin: 0;
+}
+
+.footer-email {
+  color: #fdf8f2;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.footer-email:hover {
+  color: #c9a96e;
+  text-decoration: underline;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.social-links a {
+  color: #fdf8f2;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.social-links a:hover {
+  color: #c9a96e;
+}
+
+.footer-clock {
+  color: rgba(253, 248, 242, 0.8);
+  font-size: 0.88rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(253, 248, 242, 0.12);
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+.footer-bottom a {
   color: #c9a96e;
   text-decoration: none;
 }
 
-footer a:hover {
+.footer-bottom a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 </style>
