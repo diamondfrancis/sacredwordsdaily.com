@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const menuOpen = ref(false)
 const quotesDropdownOpen = ref(false)
 const router = useRouter()
+const route = useRoute()
+
+const quotesActive = computed(() =>
+  ['/quotes', '/youtube-quotes', '/ted-talks'].includes(route.path)
+)
 
 const now = ref(new Date())
 let clockTimer: ReturnType<typeof setInterval> | null = null
@@ -81,6 +86,7 @@ router.afterEach(() => {
         <li class="has-dropdown">
           <button
             class="dropdown-trigger"
+            :class="{ 'quotes-active': quotesActive }"
             @click="toggleQuotesDropdown"
             :aria-expanded="quotesDropdownOpen"
             aria-haspopup="true"
@@ -268,11 +274,37 @@ nav ul li a.router-link-exact-active::after {
   align-items: center;
   gap: 0.35rem;
   transition: color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.dropdown-trigger::after {
+  content: '';
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 2px;
+  height: 2px;
+  background: #c9a96e;
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
 }
 
 .dropdown-trigger:hover {
   color: #c9a96e;
   background: rgba(201, 169, 110, 0.1);
+}
+
+.dropdown-trigger:hover::after {
+  transform: scaleX(1);
+}
+
+.dropdown-trigger.quotes-active {
+  color: #c9a96e;
+}
+
+.dropdown-trigger.quotes-active::after {
+  transform: scaleX(1);
 }
 
 .chevron {
