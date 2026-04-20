@@ -142,12 +142,13 @@ function scrollToTop() {
           v-for="verse in filteredVerses"
           :key="verse.reference"
           class="verse-card"
-          @click="copyToClipboard(verse.text, verse.reference)"
         >
           <span class="verse-category-tag">{{ verse.category }}</span>
           <p class="verse-text">"{{ verse.text }}"</p>
           <p class="verse-ref">— {{ verse.reference }} (NIV)</p>
-          <div class="copy-hint">Click to copy</div>
+          <div class="card-actions">
+            <button class="copy-btn" @click="copyToClipboard(verse.text, verse.reference)">Copy</button>
+          </div>
         </div>
       </div>
     </section>
@@ -238,7 +239,6 @@ function scrollToTop() {
   border-radius: 14px;
   padding: 1.75rem 1.5rem;
   position: relative;
-  cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 6px 16px rgba(59, 42, 26, 0.1);
   overflow: hidden;
@@ -280,19 +280,29 @@ function scrollToTop() {
   margin: 0;
 }
 
-.copy-hint {
-  position: absolute;
-  bottom: 1rem;
-  right: 1.5rem;
-  font-size: 0.82rem;
-  color: #a38b6f;
-  opacity: 0.7;
-  transition: opacity 0.25s;
-  pointer-events: none;
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(59, 42, 26, 0.08);
 }
 
-.verse-card:hover .copy-hint {
-  opacity: 1;
+.copy-btn {
+  background: none;
+  border: 1px solid #e0d0b8;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a3e2b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: #3b2a1a;
+  color: #fdf8f2;
+  border-color: #3b2a1a;
 }
 
 .back-to-top {

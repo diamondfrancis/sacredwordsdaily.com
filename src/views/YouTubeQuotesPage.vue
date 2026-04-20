@@ -356,7 +356,6 @@ function scrollToTop() {
           v-for="quote in filteredQuotes"
           :key="quote.text"
           class="quote-card"
-          @click="copyToClipboard(quote.text, quote.creator)"
         >
           <span class="quote-category-tag">{{ quote.category }}</span>
           <p class="quote-text">"{{ quote.text }}"</p>
@@ -378,7 +377,9 @@ function scrollToTop() {
             </a>
           </div>
 
-          <div class="copy-hint">Click to copy</div>
+          <div class="card-actions">
+            <button class="copy-btn" @click="copyToClipboard(quote.text, quote.creator)">Copy</button>
+          </div>
         </div>
       </div>
     </section>
@@ -505,9 +506,8 @@ function scrollToTop() {
   background: #fdf8f2;
   border: 1px solid #e8d9c5;
   border-radius: 12px;
-  padding: 1.5rem 1.25rem 3.25rem;
+  padding: 1.5rem 1.25rem;
   position: relative;
-  cursor: pointer;
   transition: all 0.25s ease;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(59, 42, 26, 0.08);
@@ -588,19 +588,29 @@ function scrollToTop() {
   flex-shrink: 0;
 }
 
-.copy-hint {
-  position: absolute;
-  bottom: 0.75rem;
-  right: 1rem;
-  font-size: 0.78rem;
-  color: #a38b6f;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-  pointer-events: none;
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(59, 42, 26, 0.08);
 }
 
-.quote-card:hover .copy-hint {
-  opacity: 1;
+.copy-btn {
+  background: none;
+  border: 1px solid #e0d0b8;
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a3e2b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: #3b2a1a;
+  color: #fdf8f2;
+  border-color: #3b2a1a;
 }
 
 /* ── Back to top ── */
