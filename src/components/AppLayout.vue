@@ -3,6 +3,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
 const menuOpen = ref(false)
+const quotesDropdownOpen = ref(false)
 const router = useRouter()
 
 const now = ref(new Date())
@@ -39,10 +40,16 @@ function toggleMenu() {
 
 function closeMenu() {
   menuOpen.value = false
+  quotesDropdownOpen.value = false
+}
+
+function toggleQuotesDropdown() {
+  quotesDropdownOpen.value = !quotesDropdownOpen.value
 }
 
 router.afterEach(() => {
   menuOpen.value = false
+  quotesDropdownOpen.value = false
 })
 </script>
 
@@ -71,8 +78,27 @@ router.afterEach(() => {
         <li>
           <RouterLink to="/poetry" aria-label="Navigate to Poetry" @click="closeMenu">Poetry</RouterLink>
         </li>
-        <li>
-          <RouterLink to="/quotes" aria-label="Navigate to Quotes" @click="closeMenu">Quotes</RouterLink>
+        <li class="has-dropdown">
+          <button
+            class="dropdown-trigger"
+            @click="toggleQuotesDropdown"
+            :aria-expanded="quotesDropdownOpen"
+            aria-haspopup="true"
+          >
+            Quotes
+            <svg class="chevron" :class="{ rotated: quotesDropdownOpen }" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <ul class="dropdown-menu" :class="{ open: quotesDropdownOpen }">
+            <li>
+              <RouterLink to="/quotes" aria-label="Navigate to Inspirational Quotes" @click="closeMenu">Inspirational</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/youtube-quotes" aria-label="Navigate to YouTube Quotes" @click="closeMenu">YouTube</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/ted-talks" aria-label="Navigate to TED Talks" @click="closeMenu">TED Talks</RouterLink>
+            </li>
+          </ul>
         </li>
         <li>
           <RouterLink to="/bible-verses" aria-label="Navigate to Bible Verses" @click="closeMenu">Bible Verses</RouterLink>
@@ -224,6 +250,89 @@ nav ul li a.router-link-exact-active::after {
   transform: scaleX(1);
 }
 
+/* ── Quotes Dropdown ── */
+.has-dropdown {
+  position: relative;
+}
+
+.dropdown-trigger {
+  background: none;
+  border: none;
+  color: #fdf8f2;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.2s, background 0.2s;
+}
+
+.dropdown-trigger:hover {
+  color: #c9a96e;
+  background: rgba(201, 169, 110, 0.1);
+}
+
+.chevron {
+  width: 0.65rem;
+  height: 0.65rem;
+  transition: transform 0.2s;
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2a1e10;
+  border: 1px solid rgba(201, 169, 110, 0.25);
+  border-radius: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0;
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 200;
+  animation: dropFadeIn 0.15s ease;
+}
+
+@keyframes dropFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.dropdown-menu.open,
+.has-dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.6rem 1.1rem;
+  color: #fdf8f2;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.dropdown-menu li a::after {
+  display: none;
+}
+
+.dropdown-menu li a:hover,
+.dropdown-menu li a.router-link-exact-active {
+  color: #c9a96e;
+  background: rgba(201, 169, 110, 0.12);
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
   header {
@@ -279,6 +388,50 @@ nav ul li a.router-link-exact-active::after {
   }
 
   nav ul li:last-child a {
+    border-bottom: none;
+  }
+
+  /* Dropdown — mobile */
+  .has-dropdown:hover .dropdown-menu {
+    display: none;
+  }
+
+  .dropdown-trigger {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid rgba(253, 248, 242, 0.08);
+    border-radius: 0;
+    font-size: 1.05rem;
+  }
+
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-left: 2px solid rgba(201, 169, 110, 0.4);
+    border-radius: 0;
+    padding: 0;
+    min-width: auto;
+    animation: none;
+    margin-left: 0.5rem;
+  }
+
+  .dropdown-menu.open {
+    display: block;
+  }
+
+  .dropdown-menu li a {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(253, 248, 242, 0.06);
+    font-size: 0.98rem;
+  }
+
+  .dropdown-menu li:last-child a {
     border-bottom: none;
   }
 }

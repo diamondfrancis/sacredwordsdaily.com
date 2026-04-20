@@ -17,6 +17,14 @@ const router = createRouter({
       path: '/quotes',
       component: () => import('../views/QuotesPage.vue'),
     },
+    {
+      path: '/youtube-quotes',
+      component: () => import('../views/YouTubeQuotesPage.vue'),
+    },
+    {
+      path: '/ted-talks',
+      component: () => import('../views/TedTalksPage.vue'),
+    },
   ],
 })
 
