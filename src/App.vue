@@ -19,4 +19,10 @@ body {
   color: #3b2a1a;
   line-height: 1.7;
 }
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
 </style>

@@ -483,6 +483,9 @@ nav ul li a.router-link-exact-active::after {
   nav.open {
     display: block;
     animation: slideDown 0.22s ease;
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   @keyframes slideDown {
@@ -619,9 +622,10 @@ nav ul li a.router-link-exact-active::after {
 /* ── Main & Footer ── */
 main {
   max-width: 900px;
+  width: 100%;
   margin: 3rem auto;
   padding: 0 1.5rem;
-  min-height: 60vh;
+  flex: 1 0 auto;
 }
 
 footer {
