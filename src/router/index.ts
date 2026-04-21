@@ -45,6 +45,14 @@ const router = createRouter({
       path: '/sacred-fruits',
       component: () => import('../views/SacredFruitsPage.vue'),
     },
+    {
+      path: '/about',
+      component: () => import('../views/AboutPage.vue'),
+    },
+    {
+      path: '/contact',
+      component: () => import('../views/ContactPage.vue'),
+    },
   ],
 })
 

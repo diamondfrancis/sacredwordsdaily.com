@@ -8,17 +8,15 @@ const headerRef = ref<HTMLElement | null>(null)
 const wordOfTheDay = getWordOfTheDay()
 
 const menuOpen = ref(false)
-const quotesDropdownOpen = ref(false)
 const sacredDropdownOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
-const quotesActive = computed(() =>
-  ['/quotes', '/youtube-quotes', '/ted-talks'].includes(route.path)
-)
-
 const sacredActive = computed(() =>
-  ['/sacred-words', '/sacred-names', '/sacred-places', '/sacred-numbers', '/sacred-fruits'].includes(route.path)
+  [
+    '/sacred-words', '/sacred-names', '/sacred-places', '/sacred-numbers', '/sacred-fruits',
+    '/bible-verses', '/poetry', '/quotes', '/youtube-quotes', '/ted-talks',
+  ].includes(route.path)
 )
 
 const now = ref(new Date())
@@ -42,7 +40,6 @@ function updateClock() {
 
 function handleOutsideClick(e: MouseEvent) {
   if (headerRef.value && !headerRef.value.contains(e.target as Node)) {
-    quotesDropdownOpen.value = false
     sacredDropdownOpen.value = false
   }
 }
@@ -64,23 +61,15 @@ function toggleMenu() {
 
 function closeMenu() {
   menuOpen.value = false
-  quotesDropdownOpen.value = false
-  sacredDropdownOpen.value = false
-}
-
-function toggleQuotesDropdown() {
-  quotesDropdownOpen.value = !quotesDropdownOpen.value
   sacredDropdownOpen.value = false
 }
 
 function toggleSacredDropdown() {
   sacredDropdownOpen.value = !sacredDropdownOpen.value
-  quotesDropdownOpen.value = false
 }
 
 router.afterEach(() => {
   menuOpen.value = false
-  quotesDropdownOpen.value = false
   sacredDropdownOpen.value = false
 })
 </script>
@@ -106,32 +95,6 @@ router.afterEach(() => {
       <ul>
         <li>
           <RouterLink to="/" aria-label="Navigate to Home" @click="closeMenu">Home</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/poetry" aria-label="Navigate to Poetry" @click="closeMenu">Poetry</RouterLink>
-        </li>
-        <li class="has-dropdown">
-          <button
-            class="dropdown-trigger"
-            :class="{ 'quotes-active': quotesActive }"
-            @click="toggleQuotesDropdown"
-            :aria-expanded="quotesDropdownOpen"
-            aria-haspopup="true"
-          >
-            Quotes
-            <svg class="chevron" :class="{ rotated: quotesDropdownOpen }" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
-          </button>
-          <ul class="dropdown-menu" :class="{ open: quotesDropdownOpen }">
-            <li>
-              <RouterLink to="/quotes" aria-label="Navigate to Inspirational Quotes" @click="closeMenu">Inspirational</RouterLink>
-            </li>
-            <li>
-              <RouterLink to="/youtube-quotes" aria-label="Navigate to YouTube Quotes" @click="closeMenu">YouTube</RouterLink>
-            </li>
-            <li>
-              <RouterLink to="/ted-talks" aria-label="Navigate to TED Talks" @click="closeMenu">TED Talks</RouterLink>
-            </li>
-          </ul>
         </li>
         <li class="has-dropdown">
           <button
@@ -160,10 +123,29 @@ router.afterEach(() => {
             <li>
               <RouterLink to="/sacred-fruits" aria-label="Navigate to Sacred Fruits" @click="closeMenu">Fruits</RouterLink>
             </li>
+            <li class="dropdown-divider" aria-hidden="true"></li>
+            <li>
+              <RouterLink to="/bible-verses" aria-label="Navigate to Bible Verses" @click="closeMenu">Bible Verses</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/poetry" aria-label="Navigate to Poetry" @click="closeMenu">Poetry</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/quotes" aria-label="Navigate to Inspirational Quotes" @click="closeMenu">Inspirational</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/youtube-quotes" aria-label="Navigate to YouTube Quotes" @click="closeMenu">YouTube</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/ted-talks" aria-label="Navigate to TED Talks" @click="closeMenu">TED Talks</RouterLink>
+            </li>
           </ul>
         </li>
         <li>
-          <RouterLink to="/bible-verses" aria-label="Navigate to Bible Verses" @click="closeMenu">Bible Verses</RouterLink>
+          <RouterLink to="/about" aria-label="Navigate to About" @click="closeMenu">About</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/contact" aria-label="Navigate to Contact" @click="closeMenu">Contact</RouterLink>
         </li>
       </ul>
     </nav>
@@ -366,12 +348,10 @@ nav ul li a.router-link-exact-active::after {
   transform: scaleX(1);
 }
 
-.dropdown-trigger.quotes-active,
 .dropdown-trigger.active {
   color: #c9a96e;
 }
 
-.dropdown-trigger.quotes-active::after,
 .dropdown-trigger.active::after {
   transform: scaleX(1);
 }
@@ -431,6 +411,12 @@ nav ul li a.router-link-exact-active::after {
 .dropdown-menu li a.router-link-exact-active {
   color: #c9a96e;
   background: rgba(201, 169, 110, 0.12);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(201, 169, 110, 0.2);
+  margin: 0.3rem 0.75rem;
 }
 
 /* ── Mobile ── */
@@ -556,6 +542,12 @@ nav ul li a.router-link-exact-active::after {
 
   .dropdown-menu li a::after {
     display: none;
+  }
+
+  .dropdown-divider {
+    height: 1px;
+    background: rgba(201, 169, 110, 0.2);
+    margin: 0.3rem 0.75rem;
   }
 
   .dropdown-menu li:last-child a {
