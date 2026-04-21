@@ -3,6 +3,8 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getWordOfTheDay } from '../data/sacredWords'
 
+const headerRef = ref<HTMLElement | null>(null)
+
 const wordOfTheDay = getWordOfTheDay()
 
 const menuOpen = ref(false)
@@ -38,13 +40,22 @@ function updateClock() {
   })
 }
 
+function handleOutsideClick(e: MouseEvent) {
+  if (headerRef.value && !headerRef.value.contains(e.target as Node)) {
+    quotesDropdownOpen.value = false
+    sacredDropdownOpen.value = false
+  }
+}
+
 onMounted(() => {
   updateClock()
   clockTimer = setInterval(updateClock, 60_000)
+  document.addEventListener('mousedown', handleOutsideClick)
 })
 
 onBeforeUnmount(() => {
   if (clockTimer) clearInterval(clockTimer)
+  document.removeEventListener('mousedown', handleOutsideClick)
 })
 
 function toggleMenu() {
@@ -75,7 +86,7 @@ router.afterEach(() => {
 </script>
 
 <template>
-  <header :class="{ 'menu-open': menuOpen }">
+  <header ref="headerRef" :class="{ 'menu-open': menuOpen }">
     <RouterLink to="/" class="site-title" aria-label="Go to Home">Sacred Words Daily</RouterLink>
 
     <button
@@ -125,7 +136,7 @@ router.afterEach(() => {
         <li class="has-dropdown">
           <button
             class="dropdown-trigger"
-            :class="{ 'quotes-active': sacredActive }"
+            :class="{ 'active': sacredActive }"
             @click="toggleSacredDropdown"
             :aria-expanded="sacredDropdownOpen"
             aria-haspopup="true"
@@ -352,11 +363,13 @@ nav ul li a.router-link-exact-active::after {
   transform: scaleX(1);
 }
 
-.dropdown-trigger.quotes-active {
+.dropdown-trigger.quotes-active,
+.dropdown-trigger.active {
   color: #c9a96e;
 }
 
-.dropdown-trigger.quotes-active::after {
+.dropdown-trigger.quotes-active::after,
+.dropdown-trigger.active::after {
   transform: scaleX(1);
 }
 
@@ -393,8 +406,7 @@ nav ul li a.router-link-exact-active::after {
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
-.dropdown-menu.open,
-.has-dropdown:hover .dropdown-menu {
+.dropdown-menu.open {
   display: block;
 }
 
@@ -419,7 +431,7 @@ nav ul li a.router-link-exact-active::after {
 }
 
 /* ── Mobile ── */
-@media (max-width: 640px) {
+@media (max-width: 820px) {
   header {
     flex-wrap: wrap;
     gap: 0;
@@ -462,10 +474,11 @@ nav ul li a.router-link-exact-active::after {
 
   nav ul li a {
     display: block;
-    padding: 0.85rem 0.5rem;
+    padding: 1rem 0.75rem;
     border-radius: 0;
     border-bottom: 1px solid rgba(253, 248, 242, 0.08);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    font-weight: 600;
   }
 
   nav ul li a::after {
@@ -484,26 +497,37 @@ nav ul li a.router-link-exact-active::after {
   .dropdown-trigger {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     text-align: left;
-    padding: 0.85rem 0.5rem;
+    padding: 1rem 0.75rem;
     border-bottom: 1px solid rgba(253, 248, 242, 0.08);
     border-radius: 0;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .dropdown-trigger::after {
+    display: none;
+  }
+
+  .chevron {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex-shrink: 0;
   }
 
   .dropdown-menu {
     position: static;
     transform: none;
     box-shadow: none;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
     border: none;
-    border-left: 2px solid rgba(201, 169, 110, 0.4);
     border-radius: 0;
-    padding: 0;
+    padding: 0.25rem 0;
     min-width: auto;
     animation: none;
-    margin-left: 0.5rem;
+    margin: 0;
   }
 
   .dropdown-menu.open {
@@ -511,13 +535,28 @@ nav ul li a.router-link-exact-active::after {
   }
 
   .dropdown-menu li a {
-    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(253, 248, 242, 0.06);
-    font-size: 0.98rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .dropdown-menu li a::before {
+    content: '›';
+    color: #c9a96e;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .dropdown-menu li a::after {
+    display: none;
   }
 
   .dropdown-menu li:last-child a {
-    border-bottom: none;
+    border-bottom: 1px solid rgba(253, 248, 242, 0.08);
   }
 }
 
