@@ -195,5 +195,5 @@ export const sacredFruits: SacredFruit[] = [
 
 export function getFruitOfTheDay(): SacredFruit {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
-  return sacredFruits[dayIndex % sacredFruits.length]
+  return sacredFruits[dayIndex % sacredFruits.length]!
 }

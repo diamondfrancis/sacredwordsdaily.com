@@ -45,5 +45,5 @@ export const sacredNumbers: SacredNumber[] = [
 
 export function getNumberOfTheDay(): SacredNumber {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
-  return sacredNumbers[dayIndex % sacredNumbers.length]
+  return sacredNumbers[dayIndex % sacredNumbers.length]!
 }

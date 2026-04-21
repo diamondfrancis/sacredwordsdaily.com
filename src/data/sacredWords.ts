@@ -119,5 +119,5 @@ export const sacredWords: SacredWord[] = [
 /** Returns a deterministic word for today — the same word for all visitors on the same UTC date. */
 export function getWordOfTheDay(): SacredWord {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
-  return sacredWords[dayIndex % sacredWords.length]
+  return sacredWords[dayIndex % sacredWords.length]!
 }

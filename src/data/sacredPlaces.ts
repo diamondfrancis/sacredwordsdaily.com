@@ -51,5 +51,5 @@ export const sacredPlaces: SacredPlace[] = [
 
 export function getPlaceOfTheDay(): SacredPlace {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
-  return sacredPlaces[dayIndex % sacredPlaces.length]
+  return sacredPlaces[dayIndex % sacredPlaces.length]!
 }

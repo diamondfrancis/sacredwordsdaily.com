@@ -83,5 +83,5 @@ export const sacredNames: SacredName[] = [
 
 export function getNameOfTheDay(): SacredName {
   const dayIndex = Math.floor(Date.now() / 86_400_000)
-  return sacredNames[dayIndex % sacredNames.length]
+  return sacredNames[dayIndex % sacredNames.length]!
 }
