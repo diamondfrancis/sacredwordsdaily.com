@@ -25,6 +25,22 @@ const router = createRouter({
       path: '/ted-talks',
       component: () => import('../views/TedTalksPage.vue'),
     },
+    {
+      path: '/sacred-words',
+      component: () => import('../views/SacredWordsPage.vue'),
+    },
+    {
+      path: '/sacred-names',
+      component: () => import('../views/SacredNamesPage.vue'),
+    },
+    {
+      path: '/sacred-places',
+      component: () => import('../views/SacredPlacesPage.vue'),
+    },
+    {
+      path: '/sacred-numbers',
+      component: () => import('../views/SacredNumbersPage.vue'),
+    },
   ],
 })
 

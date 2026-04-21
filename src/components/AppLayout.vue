@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { getWordOfTheDay } from '../data/sacredWords'
+
+const wordOfTheDay = getWordOfTheDay()
 
 const menuOpen = ref(false)
 const quotesDropdownOpen = ref(false)
+const sacredDropdownOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
 const quotesActive = computed(() =>
   ['/quotes', '/youtube-quotes', '/ted-talks'].includes(route.path)
+)
+
+const sacredActive = computed(() =>
+  ['/sacred-words', '/sacred-names', '/sacred-places', '/sacred-numbers'].includes(route.path)
 )
 
 const now = ref(new Date())
@@ -46,15 +54,23 @@ function toggleMenu() {
 function closeMenu() {
   menuOpen.value = false
   quotesDropdownOpen.value = false
+  sacredDropdownOpen.value = false
 }
 
 function toggleQuotesDropdown() {
   quotesDropdownOpen.value = !quotesDropdownOpen.value
+  sacredDropdownOpen.value = false
+}
+
+function toggleSacredDropdown() {
+  sacredDropdownOpen.value = !sacredDropdownOpen.value
+  quotesDropdownOpen.value = false
 }
 
 router.afterEach(() => {
   menuOpen.value = false
   quotesDropdownOpen.value = false
+  sacredDropdownOpen.value = false
 })
 </script>
 
@@ -106,6 +122,32 @@ router.afterEach(() => {
             </li>
           </ul>
         </li>
+        <li class="has-dropdown">
+          <button
+            class="dropdown-trigger"
+            :class="{ 'quotes-active': sacredActive }"
+            @click="toggleSacredDropdown"
+            :aria-expanded="sacredDropdownOpen"
+            aria-haspopup="true"
+          >
+            Sacred
+            <svg class="chevron" :class="{ rotated: sacredDropdownOpen }" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+          </button>
+          <ul class="dropdown-menu" :class="{ open: sacredDropdownOpen }">
+            <li>
+              <RouterLink to="/sacred-words" aria-label="Navigate to Sacred Words" @click="closeMenu">Words</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/sacred-names" aria-label="Navigate to Sacred Names" @click="closeMenu">Names</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/sacred-places" aria-label="Navigate to Sacred Places" @click="closeMenu">Places</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/sacred-numbers" aria-label="Navigate to Sacred Numbers" @click="closeMenu">Numbers</RouterLink>
+            </li>
+          </ul>
+        </li>
         <li>
           <RouterLink to="/bible-verses" aria-label="Navigate to Bible Verses" @click="closeMenu">Bible Verses</RouterLink>
         </li>
@@ -116,6 +158,17 @@ router.afterEach(() => {
   <main>
     <slot />
   </main>
+
+  <section class="wotd-banner">
+    <div class="wotd-inner">
+      <span class="wotd-label">✦ Word of the Day</span>
+      <h2 class="wotd-word">{{ wordOfTheDay.word }}</h2>
+      <p class="wotd-category">{{ wordOfTheDay.category }}</p>
+      <p class="wotd-meaning">{{ wordOfTheDay.meaning }}</p>
+      <blockquote class="wotd-example">&ldquo;{{ wordOfTheDay.example }}&rdquo;</blockquote>
+      <RouterLink to="/sacred-words" class="wotd-link">Explore All Sacred Words &rarr;</RouterLink>
+    </div>
+  </section>
 
   <footer>
     <div class="footer-grid">
@@ -561,6 +614,95 @@ footer {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+}
+
+/* ── Word of the Day Banner ── */
+.wotd-banner {
+  background: linear-gradient(135deg, #2a1e10 0%, #3b2a1a 60%, #1e1408 100%);
+  color: #fdf8f2;
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+}
+
+.wotd-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wotd-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #c9a96e;
+}
+
+.wotd-word {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+  color: #fdf8f2;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.wotd-category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a38b6f;
+  margin: 0;
+}
+
+.wotd-meaning {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #e8d9c5;
+  margin: 0;
+  max-width: 560px;
+}
+
+.wotd-example {
+  margin: 0;
+  padding: 1rem 1.4rem;
+  background: rgba(201, 169, 110, 0.12);
+  border-left: 3px solid #c9a96e;
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  font-size: 0.97rem;
+  line-height: 1.7;
+  color: #d4c4a8;
+  text-align: left;
+  align-self: stretch;
+}
+
+.wotd-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  background: #c9a96e;
+  color: #2a1e10;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.wotd-link:hover {
+  background: #e0c080;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .wotd-word {
+    font-size: 2.2rem;
   }
 }
 </style>
