@@ -5,7 +5,7 @@ A devotional web app exploring the language of scripture — words, names, place
 ## Pages
 
 | Route | Page | Description |
-|---|---|---|
+| --- | --- | --- |
 | `/` | Home | Landing page |
 | `/poetry` | Poetry | Devotional poems |
 | `/quotes` | Inspirational Quotes | Curated quotes |

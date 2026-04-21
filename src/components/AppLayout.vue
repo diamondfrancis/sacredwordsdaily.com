@@ -18,7 +18,7 @@ const quotesActive = computed(() =>
 )
 
 const sacredActive = computed(() =>
-  ['/sacred-words', '/sacred-names', '/sacred-places', '/sacred-numbers'].includes(route.path)
+  ['/sacred-words', '/sacred-names', '/sacred-places', '/sacred-numbers', '/sacred-fruits'].includes(route.path)
 )
 
 const now = ref(new Date())
@@ -156,6 +156,9 @@ router.afterEach(() => {
             </li>
             <li>
               <RouterLink to="/sacred-numbers" aria-label="Navigate to Sacred Numbers" @click="closeMenu">Numbers</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/sacred-fruits" aria-label="Navigate to Sacred Fruits" @click="closeMenu">Fruits</RouterLink>
             </li>
           </ul>
         </li>

@@ -41,6 +41,10 @@ const router = createRouter({
       path: '/sacred-numbers',
       component: () => import('../views/SacredNumbersPage.vue'),
     },
+    {
+      path: '/sacred-fruits',
+      component: () => import('../views/SacredFruitsPage.vue'),
+    },
   ],
 })
 
