@@ -1,6 +1,6 @@
 # Sacred Words Daily
 
-A devotional web app drawing from scripture, poetry, and sacred traditions across world religions — words, names, places, numbers, fruits, and more. Built with Vue 3, TypeScript, and Vite.
+A devotional web app drawing from scripture, poetry, and sacred traditions across world religions — words, names, places, numbers, fruits, and more. Built with Vue 3, TypeScript, and Vite. Deployed at [sacredwordsdaily.com](https://sacredwordsdaily.com).
 
 ## Pages
 
@@ -51,6 +51,12 @@ npm install
 npm run dev
 ```
 
+### Type-check
+
+```sh
+npm run type-check
+```
+
 ### Build for Production
 
 ```sh
@@ -65,7 +71,8 @@ npm run preview
 
 ## Tech Stack
 
-- [Vue 3](https://vuejs.org/) with `<script setup>` + TypeScript
-- [Vue Router](https://router.vuejs.org/)
-- [Vite](https://vite.dev/)
+- [Vue 3](https://vuejs.org/) v3.5 with `<script setup>` + TypeScript
+- [Vue Router](https://router.vuejs.org/) v5
+- [Vite](https://vite.dev/) v7
+- [TypeScript](https://www.typescriptlang.org/) ~5.9
 - Deployed on [Netlify](https://www.netlify.com/)
