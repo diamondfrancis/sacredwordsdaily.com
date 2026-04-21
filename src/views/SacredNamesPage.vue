@@ -11,6 +11,7 @@ const categories = [
   'Apostles & Disciples',
   'Women of Faith',
   'Angels & Celestial Beings',
+  'West African Vodun Divinities',
 ]
 
 const activeCategory = ref('All')
