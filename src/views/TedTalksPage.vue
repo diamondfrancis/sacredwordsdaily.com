@@ -316,15 +316,6 @@ const categoryCount = computed(() => {
   return counts
 })
 
-function copyToClipboard(text: string, speaker: string) {
-  const fullText = `"${text}" — ${speaker}`
-  navigator.clipboard.writeText(fullText).then(() => {
-    alert('Quote copied! 📋')
-  }).catch(() => {
-    alert('Failed to copy quote')
-  })
-}
-
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -389,7 +380,6 @@ function scrollToTop() {
 
           <div class="talk-title">{{ quote.talkTitle }}</div>
           <div class="card-actions">
-            <button class="copy-btn" @click="copyToClipboard(quote.text, quote.speaker)">Copy</button>
             <ShareButtons :text="quote.text" :author="quote.speaker" />
           </div>
         </div>
@@ -636,24 +626,6 @@ function scrollToTop() {
   justify-content: flex-end;
   padding-top: 0.5rem;
   border-top: 1px solid rgba(59, 42, 26, 0.08);
-}
-
-.copy-btn {
-  background: none;
-  border: 1px solid #e0d0b8;
-  border-radius: 999px;
-  padding: 0.3rem 0.85rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #5a3e2b;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.copy-btn:hover {
-  background: #3b2a1a;
-  color: #fdf8f2;
-  border-color: #3b2a1a;
 }
 
 /* ── Back to top ── */

@@ -145,14 +145,6 @@ const categoryCount = computed(() => {
   return counts
 })
 
-function copyToClipboard(text: string, title: string, author: string) {
-  const fullText = `${title}\nby ${author}\n\n${text}`
-  navigator.clipboard.writeText(fullText).then(() => {
-    alert('Poem copied! \uD83D\uDCDC')
-  }).catch(() => {
-    alert('Failed to copy poem')
-  })
-}
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -199,12 +191,6 @@ function scrollToTop() {
               @click="toggleExpand(poem.title)"
             >
               {{ expandedPoems.has(poem.title) ? 'Show less' : 'Read more' }}
-            </button>
-            <button
-              class="copy-btn"
-              @click.stop="copyToClipboard(poem.text, poem.title, poem.author)"
-            >
-              Copy
             </button>
             <ShareButtons :text="poem.text" :title="poem.title" :author="poem.author" />
           </div>
@@ -361,8 +347,7 @@ function scrollToTop() {
   border-top: 1px solid rgba(59, 42, 26, 0.08);
 }
 
-.expand-btn,
-.copy-btn {
+.expand-btn {
   background: none;
   border: 1px solid #e0d0b8;
   border-radius: 999px;
@@ -374,8 +359,7 @@ function scrollToTop() {
   transition: all 0.2s;
 }
 
-.expand-btn:hover,
-.copy-btn:hover {
+.expand-btn:hover {
   background: #3b2a1a;
   color: #fdf8f2;
   border-color: #3b2a1a;
