@@ -39,6 +39,29 @@ const displayedNumbers = computed(() => {
   )
 })
 
+// per-card example index: keyed by "number|category"
+const exampleIndices = ref<Record<string, number>>({})
+
+function cardKey(item: { number: string; category: string }) {
+  return `${item.number}|${item.category}`
+}
+
+function getExIdx(item: { number: string; category: string }) {
+  return exampleIndices.value[cardKey(item)] ?? 0
+}
+
+function prevEx(item: { number: string; category: string; examples: string[] }) {
+  const key = cardKey(item)
+  const cur = exampleIndices.value[key] ?? 0
+  exampleIndices.value[key] = (cur - 1 + item.examples.length) % item.examples.length
+}
+
+function nextEx(item: { number: string; category: string; examples: string[] }) {
+  const key = cardKey(item)
+  const cur = exampleIndices.value[key] ?? 0
+  exampleIndices.value[key] = (cur + 1) % item.examples.length
+}
+
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -80,17 +103,28 @@ function scrollToTop() {
       <div class="numbers-grid">
         <article
           v-for="item in displayedNumbers"
-          :key="item.number"
+          :key="item.number + '|' + item.category"
           class="number-card"
         >
           <span class="number-category-tag">{{ item.category }}</span>
           <div class="number-badge">{{ item.number }}</div>
           <p class="number-significance">{{ item.significance }}</p>
-          <blockquote class="number-example">
-            <span class="example-label">In Scripture</span>
-            "{{ item.example }}"
-          </blockquote>
-          <ShareButtons :text="item.example" :title="item.number" />
+          <div class="examples-wrap">
+            <blockquote class="number-example">
+              <span class="example-label">In Scripture</span>
+              "{{ item.examples[getExIdx(item)] }}"
+            </blockquote>
+            <div class="example-nav">
+              <button class="ex-arrow" @click="prevEx(item)" aria-label="Previous example">
+                &#8592;
+              </button>
+              <span class="ex-indicator">{{ getExIdx(item) + 1 }} / {{ item.examples.length }}</span>
+              <button class="ex-arrow" @click="nextEx(item)" aria-label="Next example">
+                &#8594;
+              </button>
+            </div>
+          </div>
+          <ShareButtons :text="item.examples[getExIdx(item)]" :title="item.number" />
         </article>
       </div>
     </section>
@@ -291,6 +325,48 @@ function scrollToTop() {
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: #c9a96e;
+}
+
+.examples-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.example-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.ex-arrow {
+  background: none;
+  border: 1px solid #e0d0b8;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #5a3e2b;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  padding: 0;
+}
+
+.ex-arrow:hover {
+  background: #f0e6d6;
+  border-color: #c9a96e;
+}
+
+.ex-indicator {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #a38b6f;
+  min-width: 2.5rem;
+  text-align: center;
 }
 
 .back-to-top {

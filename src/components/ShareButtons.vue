@@ -22,6 +22,16 @@ function shareOnTwitter() {
   showMenu.value = false
 }
 
+async function copyText() {
+  try {
+    await navigator.clipboard.writeText(buildShareText())
+    showFeedback('Copied ✓')
+  } catch {
+    showFeedback('Copy failed — please copy manually')
+  }
+  showMenu.value = false
+}
+
 function showFeedback(msg: string) {
   feedbackMsg.value = msg
   setTimeout(() => { feedbackMsg.value = '' }, 3000)
@@ -58,6 +68,13 @@ onUnmounted(() => document.removeEventListener('click', handleOutsideClick))
           <path d="M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.163 519.284zm-144.61 168.12-47.468-67.894L144.159 79.694h162.603l304.797 435.991 47.468 67.894 396.2 566.721H892.625L569.553 687.404z"/>
         </svg>
         X (Twitter)
+      </button>
+      <button class="share-option copy" @click="copyText">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Copy
       </button>
 
     </div>
@@ -129,6 +146,7 @@ onUnmounted(() => document.removeEventListener('click', handleOutsideClick))
 }
 
 .share-option.twitter { color: #0f1419; }
+.share-option.copy { color: #5a3e2b; }
 
 .share-feedback {
   position: absolute;
