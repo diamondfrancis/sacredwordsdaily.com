@@ -124,7 +124,7 @@ function scrollToTop() {
               </button>
             </div>
           </div>
-          <ShareButtons :text="item.examples[getExIdx(item)]" :title="item.number" />
+          <ShareButtons :text="item.examples[getExIdx(item)] ?? ''" :title="item.number" />
         </article>
       </div>
     </section>
