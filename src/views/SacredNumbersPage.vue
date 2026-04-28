@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 import { sacredNumbers } from '../data/sacredNumbers'
 
@@ -89,6 +90,7 @@ function scrollToTop() {
             <span class="example-label">In Scripture</span>
             "{{ item.example }}"
           </blockquote>
+          <ShareButtons :text="item.example" :title="item.number" />
         </article>
       </div>
     </section>

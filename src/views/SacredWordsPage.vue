@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 import { type SacredWord, sacredWords } from '../data/sacredWords'
 
@@ -92,6 +93,7 @@ function scrollToTop() {
             <span class="example-label">Example</span>
             "{{ item.example }}"
           </blockquote>
+          <ShareButtons :text="item.example" :title="item.word" />
         </article>
       </div>
     </section>

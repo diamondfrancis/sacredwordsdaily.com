@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 
 interface YouTubeQuote {
@@ -379,6 +380,7 @@ function scrollToTop() {
 
           <div class="card-actions">
             <button class="copy-btn" @click="copyToClipboard(quote.text, quote.creator)">Copy</button>
+            <ShareButtons :text="quote.text" :author="quote.creator" />
           </div>
         </div>
       </div>

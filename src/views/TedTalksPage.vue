@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 
 interface TedQuote {
@@ -389,6 +390,7 @@ function scrollToTop() {
           <div class="talk-title">{{ quote.talkTitle }}</div>
           <div class="card-actions">
             <button class="copy-btn" @click="copyToClipboard(quote.text, quote.speaker)">Copy</button>
+            <ShareButtons :text="quote.text" :author="quote.speaker" />
           </div>
         </div>
       </div>

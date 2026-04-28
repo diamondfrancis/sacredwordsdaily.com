@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 
 interface Verse {
@@ -148,6 +149,7 @@ function scrollToTop() {
           <p class="verse-ref">— {{ verse.reference }} (NIV)</p>
           <div class="card-actions">
             <button class="copy-btn" @click="copyToClipboard(verse.text, verse.reference)">Copy</button>
+            <ShareButtons :text="verse.text" :author="verse.reference" />
           </div>
         </div>
       </div>

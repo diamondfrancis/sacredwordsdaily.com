@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '../components/AppLayout.vue'
+import ShareButtons from '../components/ShareButtons.vue'
 import { ref, computed } from 'vue'
 
 interface Poem {
@@ -205,6 +206,7 @@ function scrollToTop() {
             >
               Copy
             </button>
+            <ShareButtons :text="poem.text" :title="poem.title" :author="poem.author" />
           </div>
         </div>
       </div>
