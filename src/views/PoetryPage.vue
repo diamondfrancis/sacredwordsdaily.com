@@ -20,14 +20,16 @@ const categories = [
 ]
 
 const activeCategory = ref('All')
-const expandedPoems = ref<Set<string>>(new Set())
+const selectedPoem = ref<Poem | null>(null)
 
-function toggleExpand(key: string) {
-  if (expandedPoems.value.has(key)) {
-    expandedPoems.value.delete(key)
-  } else {
-    expandedPoems.value.add(key)
-  }
+function openPoem(poem: Poem) {
+  selectedPoem.value = poem
+  document.body.style.overflow = 'hidden'
+}
+
+function closePoem() {
+  selectedPoem.value = null
+  document.body.style.overflow = ''
 }
 
 const poems: Poem[] = [
@@ -130,6 +132,14 @@ const poems: Poem[] = [
     author: 'John Donne',
     text: "No man is an island,\nEntire of itself.\nEach is a piece of the continent,\nA part of the main.\nIf a clod be washed away by the sea,\nEurope is the less.\nAs well as if a promontory were.\nAs well as if a manor of thine own\nOr of thine friend's were.\nEach man's death diminishes me,\nFor I am involved in mankind.\nTherefore, send not to know\nFor whom the bell tolls,\nIt tolls for thee.",
   },
+
+  // ── Toni Morrison ──
+  {
+    category: 'Hope & Dreams',
+    title: 'Someone Leans Near',
+    author: 'Toni Morrison',
+    text: "Someone leans near\nAnd sees the salt your eyes have shed.\n\nYou wait, longing to hear\nWords of reason, love or play\nTo lash or lull you toward the hollow day.\n\nSilence kneads your fear\nOf crumbled star-ash sifting down\nClouding the rooms here, here.\n\nYou shore up your heart to run. To stay.\nBut no sign or design marks the narrow way.\n\nThen on your skin a breath caresses\nThe salt your eyes have shed.\n\nAnd you remember a call clear, so clear\n\"You will never die again.\"\n\nOnce more you know\nYou will never die again.",
+  },
 ]
 
 const filteredPoems = computed(() => {
@@ -176,22 +186,13 @@ function scrollToTop() {
           v-for="poem in filteredPoems"
           :key="poem.title"
           class="poem-card"
-          :class="{ expanded: expandedPoems.has(poem.title) }"
         >
           <span class="poem-category-tag">{{ poem.category }}</span>
           <h3 class="poem-title">{{ poem.title }}</h3>
           <p class="poem-author">&mdash; {{ poem.author }}</p>
-          <pre
-            class="poem-text"
-            :class="{ clamped: !expandedPoems.has(poem.title) }"
-          >{{ poem.text }}</pre>
+          <pre class="poem-text clamped">{{ poem.text }}</pre>
           <div class="card-actions">
-            <button
-              class="expand-btn"
-              @click="toggleExpand(poem.title)"
-            >
-              {{ expandedPoems.has(poem.title) ? 'Show less' : 'Read more' }}
-            </button>
+            <button class="expand-btn" @click="openPoem(poem)">Read more</button>
             <ShareButtons :text="poem.text" :title="poem.title" :author="poem.author" />
           </div>
         </div>
@@ -199,6 +200,22 @@ function scrollToTop() {
     </section>
 
     <button @click="scrollToTop" aria-label="Back to top" class="back-to-top">&uarr;</button>
+
+    <!-- Poem Modal -->
+    <Teleport to="body">
+      <div v-if="selectedPoem" class="modal-overlay" @click.self="closePoem">
+        <div class="modal-card">
+          <button class="modal-close" @click="closePoem" aria-label="Close">&times;</button>
+          <span class="poem-category-tag">{{ selectedPoem.category }}</span>
+          <h3 class="modal-title">{{ selectedPoem.title }}</h3>
+          <p class="modal-author">&mdash; {{ selectedPoem.author }}</p>
+          <pre class="modal-text">{{ selectedPoem.text }}</pre>
+          <div class="modal-actions">
+            <ShareButtons :text="selectedPoem.text" :title="selectedPoem.title" :author="selectedPoem.author" />
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </AppLayout>
 </template>
 
@@ -386,6 +403,81 @@ function scrollToTop() {
   background-color: #c9a96e;
   color: #3b2a1a;
   transform: translateY(-3px);
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 18, 8, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: linear-gradient(135deg, #fdf8f2 0%, #f8f0e5 100%);
+  border: 1px solid #e0d0b8;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(59, 42, 26, 0.25);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(59, 42, 26, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #3b2a1a;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: #3b2a1a;
+  color: #fdf8f2;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  margin: 0.5rem 0 0.25rem;
+  color: #3b2a1a;
+  font-weight: 700;
+}
+
+.modal-author {
+  font-size: 0.95rem;
+  color: #6b5a45;
+  margin: 0 0 1rem;
+  font-style: italic;
+}
+
+.modal-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #2f1e0f;
+  white-space: pre-wrap;
+  font-family: Georgia, 'Times New Roman', serif;
+  margin: 0 0 1.25rem;
+}
+
+.modal-actions {
+  border-top: 1px solid rgba(59, 42, 26, 0.08);
+  padding-top: 0.75rem;
 }
 
 @media (max-width: 600px) {

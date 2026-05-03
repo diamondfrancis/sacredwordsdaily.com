@@ -152,6 +152,9 @@ router.afterEach(() => {
           </ul>
         </li>
         <li>
+          <RouterLink to="/study" aria-label="Navigate to Study" @click="closeMenu">Study</RouterLink>
+        </li>
+        <li>
           <RouterLink to="/about" aria-label="Navigate to About" @click="closeMenu">About</RouterLink>
         </li>
         <li>

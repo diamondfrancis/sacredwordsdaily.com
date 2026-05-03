@@ -17,6 +17,10 @@ const router = createRouter({
       component: () => import('../views/PoetryPage.vue'),
     },
     {
+      path: '/study',
+      component: () => import('../views/StudyPage.vue'),
+    },
+    {
       path: '/quotes',
       component: () => import('../views/QuotesPage.vue'),
     },
